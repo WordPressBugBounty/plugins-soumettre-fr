@@ -274,17 +274,21 @@ class Soumettre_Admin {
 	}
 
 	public function soumettre_disconnect_gateway() {
-	    $nextCronTimestamp = wp_next_scheduled( 'soumettre_cron_hook' );
+        if (current_user_can('manage_options')) {
+            $nextCronTimestamp = wp_next_scheduled('soumettre_cron_hook');
 
-		if ( $nextCronTimestamp ) {
-			wp_unschedule_event( $nextCronTimestamp, 'soumettre_cron_hook' );
-		}
+            if ($nextCronTimestamp) {
+                wp_unschedule_event($nextCronTimestamp, 'soumettre_cron_hook');
+            }
 
-		delete_option( 'soumettre_auth_state' );
+            delete_option('soumettre_auth_state');
 
-		delete_option( 'soumettre_api_key' );
-		delete_option( 'soumettre_api_secret' );
+            delete_option('soumettre_api_key');
+            delete_option('soumettre_api_secret');
 
-		exit( wp_redirect( admin_url( 'options-general.php?page=soumettre-options' ) ) );
+            exit(wp_redirect(admin_url('options-general.php?page=soumettre-options')));
+        }
+
+        exit(wp_redirect(home_url()));
 	}
 }
