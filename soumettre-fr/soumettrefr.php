@@ -16,7 +16,7 @@
  * Plugin Name:       Soumettre.fr
  * Plugin URI:        https://soumettre.fr/devenir-partenaire
  * Description:       Connects your website to the Soumettre.fr platform
- * Version:           2.1.4
+ * Version:           2.1.5
  * Author:            Bleetic
  * Author URI:        https://soumettre.fr/
  * Requires at least: 4.7
@@ -37,7 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'SOUMETTRE_VERSION', '2.1.4' );
+define( 'SOUMETTRE_VERSION', '2.1.5' );
 define( 'SOUMETTRE_REST_API_VERSION', 2 );
 define( 'SOUMETTRE_IMAGES', plugin_dir_url( __FILE__ ) . 'images/' );
 

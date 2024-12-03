@@ -1,9 +1,9 @@
 === Soumettre.fr ===
 Contributors: soumettre,dsampaolo,doudoumoii
 Requires at least: 4.7
-Tested up to: 6.0
+Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ Oui vous devez avoir un compte sur la plateforme. Ce compte nous permet de vous 
 Vous pouvez consulter la FAQ sur notre site une fois votre compte créé [en cliquant ici](https://soumettre.fr/user/support).
 
 == Changelog ==
+= 2.1.5 =
+* Mise à jour des traductions
+
 = 2.1.4 =
 * Optimisation du correctif de la version 2.1.3
 

@@ -1,16 +1,16 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Soumettre.fr\n"
-"POT-Creation-Date: 2021-04-20 17:33+0200\n"
+"POT-Creation-Date: 2024-12-03 10:57+0100\n"
 "PO-Revision-Date: 2021-04-20 17:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: soumettrefr.php\n"
@@ -210,32 +210,37 @@ msgstr ""
 msgid "API secret"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:66
+#: public/rest/class-soumettre-rest-route.php:56
+#: public/rest/class-soumettre-rest-route.php:75
+msgid "Soumettre.fr user email"
+msgstr ""
+
+#: public/rest/class-soumettre-rest-route.php:71
 msgid "Amount of commissions"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:95
-#: public/rest/class-soumettre-rest-route.php:156
+#: public/rest/class-soumettre-rest-route.php:105
+#: public/rest/class-soumettre-rest-route.php:166
 msgid "Post title"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:100
-#: public/rest/class-soumettre-rest-route.php:161
+#: public/rest/class-soumettre-rest-route.php:110
+#: public/rest/class-soumettre-rest-route.php:171
 msgid "Post content"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:105
-#: public/rest/class-soumettre-rest-route.php:143
-#: public/rest/class-soumettre-rest-route.php:166
-#: public/rest/class-soumettre-rest-route.php:179
+#: public/rest/class-soumettre-rest-route.php:115
+#: public/rest/class-soumettre-rest-route.php:153
+#: public/rest/class-soumettre-rest-route.php:176
+#: public/rest/class-soumettre-rest-route.php:189
 msgid "Soumettre.fr content ID"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:114
+#: public/rest/class-soumettre-rest-route.php:124
 msgid "Post category ID"
 msgstr ""
 
-#: public/rest/class-soumettre-rest-route.php:123
+#: public/rest/class-soumettre-rest-route.php:133
 msgid "Featured image URL"
 msgstr ""
 
