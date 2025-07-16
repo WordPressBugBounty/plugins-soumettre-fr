@@ -3,7 +3,7 @@ Contributors: soumettre,dsampaolo,doudoumoii
 Requires at least: 4.7
 Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,15 +40,18 @@ Les extensions antérieures à la version 2.0.0 n'étaient pas publiées sur le 
 Cependant nous avons assuré la retro-compatibilité. Si vous aviez déjà l'ancienne extension d'installée, nous récupérons automatiquement toutes les informations pour relier votre site à notre plateforme. Vous n'aurez ensuite plus qu'à désactiver votre ancienne extension.
 
 == Frequently Asked Questions ==
-= Est ce que j'ai besoin d'un créer un compte Soumettre.fr ? =
+= Est ce que j'ai besoin de créer un compte Soumettre.fr ? =
 
 Oui vous devez avoir un compte sur la plateforme. Ce compte nous permet de vous identifier.
 
-= J'ai d'autres question =
+= J'ai d'autres questions =
 
 Vous pouvez consulter la FAQ sur notre site une fois votre compte créé [en cliquant ici](https://soumettre.fr/user/support).
 
 == Changelog ==
+= 2.1.6 =
+* Correctif de sécurité (CVE-2024-8676)
+
 = 2.1.5 =
 * Mise à jour des traductions
 

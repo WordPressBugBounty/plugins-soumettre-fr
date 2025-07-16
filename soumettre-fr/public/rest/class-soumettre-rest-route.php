@@ -201,10 +201,14 @@ class Soumettre_Rest_Route extends WP_REST_Controller {
 	}
 
 	private function check_signature( WP_REST_Request $request ) {
+		if ( !$this->api_key || !$this->api_secret ) {
+			return false;
+		}
+
 		$received_signature = $request->get_param( 'signature' );
 		$calculatedSign     = $this->make_signature( $request );
 
-		return ( $received_signature === $calculatedSign );
+		return hash_equals( $received_signature, $calculatedSign );
 	}
 
 	private function make_signature( WP_REST_Request $request ) {
