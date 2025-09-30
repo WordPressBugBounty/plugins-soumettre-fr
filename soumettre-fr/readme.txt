@@ -3,7 +3,7 @@ Contributors: soumettre,dsampaolo,doudoumoii
 Requires at least: 4.7
 Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 2.1.6
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ Oui vous devez avoir un compte sur la plateforme. Ce compte nous permet de vous 
 Vous pouvez consulter la FAQ sur notre site une fois votre compte créé [en cliquant ici](https://soumettre.fr/user/support).
 
 == Changelog ==
+= 2.2.0 =
+* Préservation des données structurées dans les articles issus de Soumettre.fr
+
 = 2.1.6 =
 * Correctif de sécurité (CVE-2024-8676)
 
@@ -92,3 +95,12 @@ Vous pouvez consulter la FAQ sur notre site une fois votre compte créé [en cli
 
 = 1.4 =
 * First version on Wordpress plugins directory.
+
+
+== Crédits ==
+
+Ce plugin reprend et adapte une partie du code du plugin
+"Protect schema.org markup in HTML editor" développé par l'équipe Ecwid
+(https://fr.wordpress.org/plugins/protect-schemaorg-markup-in-html-editor/).
+
+Code original distribué sous licence GPL v2 ou ultérieure.

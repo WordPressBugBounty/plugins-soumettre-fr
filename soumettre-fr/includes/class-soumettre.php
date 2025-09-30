@@ -78,6 +78,7 @@ class Soumettre {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_post_hooks();
 	}
 
 	/**
@@ -217,4 +218,16 @@ class Soumettre {
 		$this->loader->add_action( 'rest_api_init', $plugin_public, 'load_rest_routes' );
 	}
 
+	/**
+	 * Register all of the hooks related to the post-related functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_post_hooks() {
+		$plugin_post = new SoumettrePost();
+		$this->loader->add_filter('tiny_mce_before_init', $plugin_post, 'soumettre_tiny_mce_before_init');
+		$this->loader->add_filter('wp_kses_allowed_html', $plugin_post, 'soumettre_conditional_wp_kses_allowed_html', 10, 2);
+	}
 }

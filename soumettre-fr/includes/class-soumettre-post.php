@@ -102,20 +102,33 @@ class SoumettrePost {
 			'post_status'  => 'publish',
 		);
 
-		wp_update_post( $values_to_update, true );
+		try {
+			add_filter('wp_kses_allowed_html', array($this, 'soumettre_wp_kses_allowed_html' ), 10, 2);
 
-		wp_set_post_categories( $inserted_post, $category_id );
+			wp_update_post($values_to_update, true);
 
-		// Set featured image
-		if ( $featured_image_url !== '' ) {
-			if ( ! $id_attachment = $this->get_attachment_by_post_meta( $featured_image_url ) ) {
-				$id_attachment = $this->import_img( $featured_image_url, $inserted_post, $featured_image_title );
+			wp_set_post_categories($inserted_post, $category_id);
+
+			// Set featured image
+			if ($featured_image_url !== '') {
+				if (!$id_attachment = $this->get_attachment_by_post_meta($featured_image_url)) {
+					$id_attachment = $this->import_img($featured_image_url, $inserted_post, $featured_image_title);
+				}
+
+				if (!is_wp_error($id_attachment)) {
+					$featured_image_alt = ($featured_image_title) ? $featured_image_title : $title;
+
+					update_post_meta(
+						$id_attachment,
+						'_wp_attachment_image_alt',
+						apply_filters('soumettre_default_alt_featued_image', $featured_image_alt, $category_id)
+					);
+
+					set_post_thumbnail($inserted_post, $id_attachment);
+				}
 			}
-			if ( ! is_wp_error( $id_attachment ) ) {
-				$featured_image_alt = ($featured_image_title) ? $featured_image_title : $title;
-				update_post_meta($id_attachment, '_wp_attachment_image_alt', apply_filters('soumettre_default_alt_featued_image', $featured_image_alt, $category_id));
-				set_post_thumbnail( $inserted_post, $id_attachment );
-			}
+		} finally {
+			remove_filter('wp_kses_allowed_html', array($this, 'soumettre_wp_kses_allowed_html' ), 10, 2);
 		}
 
 		return get_post( $inserted_post );
@@ -162,7 +175,12 @@ class SoumettrePost {
 			'post_title'   => sanitize_text_field( $title ),
 		);
 
-		$updated_posts = wp_update_post( $values_to_update, true );
+		try {
+			add_filter( 'wp_kses_allowed_html', array( $this, 'soumettre_wp_kses_allowed_html' ), 10, 2 );
+			$updated_posts = wp_update_post( $values_to_update, true );
+		} finally {
+			remove_filter( 'wp_kses_allowed_html', array( $this, 'soumettre_wp_kses_allowed_html' ), 10, 2 );
+		}
 
 		if ( is_wp_error( $updated_posts ) ) {
 			return $updated_posts;
@@ -275,5 +293,154 @@ class SoumettrePost {
 
 		return $id;
 	}
+
+	/**
+	 * The following code was adapted from the "Protect schema.org markup in HTML editor" plugin
+	 * by [Ecwid Team](http://www.ecwid.com?source=tinymce-schemaorg-markup)
+	 * Licensed under GPL v2 or later
+	 */
+
+	public function soumettre_get_extended_valid_elements()
+	{
+		$elements = [
+			'@' => [
+				'id',
+				'class',
+				'style',
+				'title',
+				'itemscope',
+				'itemtype',
+				'itemprop',
+				'datetime',
+				'rel',
+			],
+			'article',
+			'div',
+			'p',
+			'dl',
+			'dt',
+			'dd',
+			'ul',
+			'li',
+			'span',
+			'a' => [
+				'href',
+				'name',
+				'target',
+				'rev',
+				'charset',
+				'lang',
+				'tabindex',
+				'accesskey',
+				'type',
+				'class',
+				'onfocus',
+				'onblur',
+			],
+			'img' => [
+				'src',
+				'alt',
+				'width',
+				'height',
+			],
+			'meta' => [
+				'content',
+			],
+			'link' => [
+				'href',
+			],
+			'time' => [
+				'itemprop',
+				'content',
+			],
+		];
+
+		return apply_filters('soumettre_extended_valid_elements', $elements);
+	}
+
+	public function soumettre_tiny_mce_before_init($settings)
+	{
+		$post = get_post();
+
+		if (!$post || !$post->ID || !get_post_meta($post->ID, 'soumettre_id', true)) {
+			return $settings;
+		}
+
+		if (!empty($settings['extended_valid_elements'])) {
+			$settings['extended_valid_elements'] .= ',';
+		} else {
+			$settings['extended_valid_elements'] = '';
+		}
+
+		$result = $settings['extended_valid_elements'];
+
+		$elements = $this->soumettre_get_extended_valid_elements();
+
+		foreach ($elements as $key => $element) {
+			if (is_array($element) && !empty($key)) {
+				$name = $key;
+				$attributes = $element;
+			} else {
+				$name = $element;
+				$attributes = [];
+			}
+
+			if (!empty($result)) {
+				$result .= ',';
+			}
+
+			$result .= $name;
+
+			if (!empty($attributes)) {
+				$result .= '[' . implode('|', $attributes) . ']';
+			}
+		}
+
+		$settings['extended_valid_elements'] = $result;
+
+		return $settings;
+	}
+
+	public function soumettre_conditional_wp_kses_allowed_html($tags, $context)
+	{
+		if (
+			($context !== 'post')
+			|| (!$post = get_post())
+			|| !$post->ID
+			|| !get_post_meta($post->ID, 'soumettre_id', true)
+		) {
+			return $tags;
+		}
+
+		return $this->soumettre_wp_kses_allowed_html($tags, $context);
+	}
+
+	public function soumettre_wp_kses_allowed_html($tags, $context)
+	{
+		if ($context !== 'post') {
+			return $tags;
+		}
+
+		$schema_attributes = [
+			'itemscope' => true,
+			'itemtype' => true,
+			'itemprop' => true,
+			'datetime' => true,
+			'content' => true,
+		];
+
+		if (!empty($tags)) {
+			$tags_with_schema_attrs = [];
+
+			foreach ($tags as $tag => $attributes) {
+				$tags_with_schema_attrs[$tag] = array_merge($attributes, $schema_attributes);
+			}
+
+			return $tags_with_schema_attrs;
+		}
+
+		return $tags;
+	}
+
 
 }
